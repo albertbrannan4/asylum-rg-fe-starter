@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CitizenshipMapAll from './Graphs/CitizenshipMapAll';
@@ -13,11 +13,11 @@ import { resetVisualizationQuery } from '../../../state/actionCreators';
 import test_data from '../../../data/test_data.json';
 import { colors } from '../../../styles/data_vis_colors';
 import ScrollToTopOnMount from '../../../utils/scrollToTopOnMount';
-
 const { background_color } = colors;
 
 function GraphWrapper(props) {
   const { set_view, dispatch } = props;
+  const [data, setData] = useState({ fiscalData: [], citizenData: [] });
   let { office, view } = useParams();
   if (!view) {
     set_view('time-series');
@@ -72,34 +72,49 @@ function GraphWrapper(props) {
                                    -- Mack 
     
     */
-
+    console.log(office, 'office');
+    console.log(view, 'view');
+    const Real_Production_URL = 'https://hrf-asylum-be-b.herokuapp.com/cases';
     if (office === 'all' || !office) {
       axios
-        .get(process.env.REACT_APP_API_URI, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-          },
-        })
+        .get(
+          `${Real_Production_URL}/${
+            view === 'citizenship' ? 'citizenshipSummary' : 'fiscalSummary'
+          }`,
+          {
+            // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+            params: {
+              from: years[0],
+              to: years[1],
+            },
+          }
+        )
         .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          console.log(result.data);
+          const myData = view === 'citizenship' ? result.data : [result.data];
+          stateSettingCallback(view, office, myData); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {
           console.error(err);
         });
     } else {
       axios
-        .get(process.env.REACT_APP_API_URI, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-            office: office,
-          },
-        })
+        .get(
+          `${Real_Production_URL}/${
+            view === 'citizenship' ? 'citizenshipSummary' : 'fiscalSummary'
+          }`,
+          {
+            // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+            params: {
+              from: years[0],
+              to: years[1],
+              office: office,
+            },
+          }
+        )
         .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          const myData = view === 'citizenship' ? [result.data] : [result.data];
+          stateSettingCallback(view, office, myData); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {
           console.error(err);

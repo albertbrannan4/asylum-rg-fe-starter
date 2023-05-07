@@ -72,8 +72,7 @@ function GraphWrapper(props) {
                                    -- Mack 
     
     */
-    console.log(office, 'office');
-    console.log(view, 'view');
+
     const Real_Production_URL = 'https://hrf-asylum-be-b.herokuapp.com/cases';
     if (office === 'all' || !office) {
       axios
@@ -90,8 +89,10 @@ function GraphWrapper(props) {
           }
         )
         .then(result => {
-          console.log(result.data);
-          const myData = view === 'citizenship' ? result.data : [result.data];
+          const myData =
+            view === 'citizenship'
+              ? [{ yearResults: [], citizenshipResults: result.data }]
+              : [result.data];
           stateSettingCallback(view, office, myData); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {

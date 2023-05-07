@@ -10,14 +10,14 @@ import YearLimitsSelect from './YearLimitsSelect';
 import ViewSelect from './ViewSelect';
 import axios from 'axios';
 import { resetVisualizationQuery } from '../../../state/actionCreators';
-import test_data from '../../../data/test_data.json';
+// import test_data from '../../../data/test_data.json';
 import { colors } from '../../../styles/data_vis_colors';
 import ScrollToTopOnMount from '../../../utils/scrollToTopOnMount';
 const { background_color } = colors;
 
 function GraphWrapper(props) {
   const { set_view, dispatch } = props;
-  const [data, setData] = useState({ fiscalData: [], citizenData: [] });
+  const [data, setData] = useState({ yearResults: [], citizenshipResults: [] });
   let { office, view } = useParams();
   if (!view) {
     set_view('time-series');
@@ -91,9 +91,10 @@ function GraphWrapper(props) {
         .then(result => {
           const myData =
             view === 'citizenship'
-              ? [{ yearResults: [], citizenshipResults: result.data }]
-              : [result.data];
-          stateSettingCallback(view, office, myData); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+              ? { yearResults: [], citizenshipResults: result.data }
+              : result.data;
+          console.log(myData);
+          stateSettingCallback(view, office, [myData]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {
           console.error(err);

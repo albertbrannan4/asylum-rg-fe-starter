@@ -93,7 +93,7 @@ function GraphWrapper(props) {
             view === 'citizenship'
               ? { yearResults: [], citizenshipResults: result.data }
               : result.data;
-          console.log(myData);
+
           stateSettingCallback(view, office, [myData]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {

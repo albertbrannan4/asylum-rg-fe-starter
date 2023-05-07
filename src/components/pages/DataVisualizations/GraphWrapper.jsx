@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CitizenshipMapAll from './Graphs/CitizenshipMapAll';
@@ -17,7 +17,6 @@ const { background_color } = colors;
 
 function GraphWrapper(props) {
   const { set_view, dispatch } = props;
-  const [data, setData] = useState({ yearResults: [], citizenshipResults: [] });
   let { office, view } = useParams();
   if (!view) {
     set_view('time-series');
@@ -115,7 +114,7 @@ function GraphWrapper(props) {
           }
         )
         .then(result => {
-          const myData = view === 'citizenship' ? [result.data] : [result.data];
+          const myData = [];
           stateSettingCallback(view, office, myData); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {

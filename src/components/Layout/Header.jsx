@@ -31,7 +31,7 @@ function HeaderContent() {
       </div>
       <div
         style={{
-          width: '25%',
+          width: '30%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-around',

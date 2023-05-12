@@ -5,7 +5,7 @@ const ProfilePage = () => {
   const card = {
     border: '1px solid black',
     width: '50rem',
-    height: '40vh',
+    height: '55vh',
     display: 'flex',
     flexDirection: 'column',
     margin: '4%',
@@ -18,7 +18,7 @@ const ProfilePage = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
       <div style={card}>
-        <img style={{ width: '40%' }} src={user.picture} alt={user.name} />
+        <img style={{ width: '30%' }} src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>
         <p>{user.email}</p>
         <p>{user.website}</p>

@@ -4,7 +4,7 @@ const ProfilePage = () => {
   const { user } = useAuth0();
   const card = {
     border: '1px solid black',
-    width: '25%',
+    width: '50rem',
     height: '40vh',
     display: 'flex',
     flexDirection: 'column',
@@ -13,9 +13,10 @@ const ProfilePage = () => {
     justifyContent: 'center',
     alignItems: 'center',
     boxShadow: '10px 5px 5px grey',
+    backgroundColor: '#e6e9ed',
   };
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
       <div style={card}>
         <img style={{ width: '40%' }} src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>

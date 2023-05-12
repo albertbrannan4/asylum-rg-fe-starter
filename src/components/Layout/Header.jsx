@@ -3,10 +3,18 @@ import { Image } from 'antd';
 import { Link } from 'react-router-dom';
 import Logo from '../../styles/Images/WhiteLogo.png';
 import { colors } from '../../styles/data_vis_colors';
-import Auth0LoginButton from '../auth/auth0-login';
+import LoginButton from '../auth/login';
+import LogoutButton from '../auth/logout';
+import { useAuth0 } from '@auth0/auth0-react';
 const { primary_accent_color } = colors;
 
+const AuthNav = () => {
+  const { isAuthenticated } = useAuth0();
+  return <nav>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</nav>;
+};
+
 function HeaderContent() {
+  const { isAuthenticated } = useAuth0();
   return (
     <div
       style={{
@@ -21,17 +29,26 @@ function HeaderContent() {
           <Image width={100} src={Logo} preview={false} alt="HRF logo white" />
         </a>
       </div>
-      <div>
-        <Link to="/" style={{ color: '#E2F0F7', paddingRight: '75px' }}>
+      <div
+        style={{
+          width: '25%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}
+      >
+        <Link to="/" style={{ color: '#E2F0F7' }}>
           Home
         </Link>
         <Link to="/graphs" style={{ color: '#E2F0F7' }}>
           Graphs
         </Link>
-        <Link to="/profile" style={{ color: '#E2F0F7' }}>
-          Profile
-        </Link>
-        <Auth0LoginButton />
+        {isAuthenticated && (
+          <Link to="/profile" style={{ color: '#E2F0F7' }}>
+            Profile
+          </Link>
+        )}
+        <AuthNav />
       </div>
     </div>
   );
